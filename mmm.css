@@ -1,6 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #000;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
+  padding: 16px 12px 24px;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -21,8 +32,10 @@ body {
 }
 
 .loading-gif {
+  display: block;
   width: 250px;
   max-width: 80vw;
+  height: auto;
 }
 
 .loading-text {
@@ -34,9 +47,10 @@ body {
 .slider {
   width: 100%;
   max-width: 600px;
+  min-width: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .slide {
@@ -62,6 +76,7 @@ body {
   height: auto;
   max-width: 100%;
   max-height: 78vh;
+  max-height: 78dvh;
   object-fit: contain;
   margin: 0 auto;
 }
@@ -74,23 +89,27 @@ body {
   width: auto;
   max-width: 100%;
   max-height: 78vh;
+  max-height: 78dvh;
+  background: #000;
 }
 
 .nav {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 35px;
-  margin-top: 20px;
   width: 100%;
+  margin-top: 20px;
 }
 
 .nav img {
+  display: block;
   width: 200px;
   max-width: 42vw;
   height: auto;
   cursor: pointer;
   user-select: none;
+  -webkit-user-drag: none;
 }
 
 .nav img[hidden] {
@@ -106,6 +125,7 @@ body {
   height: 18px;
   padding: 0;
   border: none;
+  border-radius: 0;
   background: transparent;
   color: var(--secret-color, #ccc);
   font-family: Georgia, serif;
@@ -116,6 +136,7 @@ body {
   cursor: pointer;
   z-index: 2;
   appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .secret-heart {
@@ -126,10 +147,13 @@ body {
   font-size: 14px;
 }
 
-.secret:hover,
-.secret:focus-visible {
+.secret:hover {
   opacity: 0.55;
-  outline: none;
+}
+
+.secret:focus-visible {
+  opacity: 0.8;
+  outline: 1px dashed currentColor;
 }
 
 .photo-popup {
@@ -142,7 +166,7 @@ body {
   padding: 20px;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(5px);
-  box-sizing: border-box;
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .photo-popup[hidden] {
@@ -153,10 +177,12 @@ body {
   position: relative;
   width: 100%;
   max-width: 560px;
+  max-height: 90vh;
+  max-height: 90dvh;
+  overflow: auto;
   padding: 20px;
   background: #111;
   border: 1px solid #444;
-  box-sizing: border-box;
   text-align: center;
 }
 
@@ -166,9 +192,9 @@ body {
   height: auto;
   max-width: 100%;
   max-height: 70vh;
+  max-height: 70dvh;
   margin: 0 auto;
   border: 3px solid #fff;
-  box-sizing: border-box;
 }
 
 #photoCaption {
@@ -176,31 +202,40 @@ body {
   font-family: Georgia, serif;
   font-size: 16px;
   margin: 16px 0 0;
+  overflow-wrap: anywhere;
 }
 
 .close-popup {
-  position: absolute;
-  top: 5px;
-  right: 8px;
+  position: sticky;
+  float: right;
+  top: 0;
+  margin: -12px -10px 0 0;
   border: none;
   background: transparent;
   color: #fff;
   font-size: 28px;
+  line-height: 1;
   cursor: pointer;
   z-index: 1;
 }
 
 @media (max-width: 600px) {
+  body {
+    padding: 12px 8px 20px;
+  }
+
   .loading-gif {
     width: 200px;
   }
 
   .manga-page {
     max-height: 75vh;
+    max-height: 75dvh;
   }
 
   .video-slide video {
     max-height: 75vh;
+    max-height: 75dvh;
   }
 
   .nav {
