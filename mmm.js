@@ -2,7 +2,6 @@ const slides = document.querySelectorAll(".slide");
 const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
 const loadingScreen = document.getElementById("loadingScreen");
-const loadingGif = document.getElementById("loadingGif");
 const clickSound = document.getElementById("clickSound");
 const sufferImage = document.getElementById("sufferImage");
 const endingVideo = document.getElementById("endingVideo");
@@ -15,24 +14,37 @@ const closePopup = document.getElementById("closePopup");
 let currentPage = 0;
 const sufferPage = slides.length - 2;
 const videoPage = slides.length - 1;
+let loadingFinished = false;
 
 function playClick() {
+  if (!clickSound) return;
+
   clickSound.currentTime = 0;
-  clickSound.play().catch(function(error) {
-    console.log("Click sound could not play:", error);
-  });
+
+  const soundPromise = clickSound.play();
+
+  if (soundPromise) {
+    soundPromise.catch(function() {});
+  }
 }
 
 function showPage() {
-  slides.forEach(function(slide) {
-    slide.classList.remove("active");
+  slides.forEach(function(slide, index) {
+    slide.classList.toggle("active", index === currentPage);
   });
 
-  slides[currentPage].classList.add("active");
   backBtn.hidden = currentPage === 0;
   nextBtn.hidden =
     currentPage === sufferPage ||
     currentPage === videoPage;
+}
+
+function finishLoading() {
+  if (loadingFinished) return;
+
+  loadingFinished = true;
+  loadingScreen.style.display = "none";
+  showPage();
 }
 
 function openVideoPage() {
@@ -42,12 +54,12 @@ function openVideoPage() {
   currentPage = videoPage;
   showPage();
 
-  endingVideo.play().catch(function(error) {
-    console.log("Press Play to start the video:", error);
-  });
-}
+  const videoPromise = endingVideo.play();
 
-sufferImage.addEventListener("click", openVideoPage);
+  if (videoPromise) {
+    videoPromise.catch(function() {});
+  }
+}
 
 function nextPage() {
   if (currentPage >= videoPage) return;
@@ -76,23 +88,6 @@ function backPage() {
   showPage();
 }
 
-backBtn.addEventListener("click", backPage);
-nextBtn.addEventListener("click", nextPage);
-
-backBtn.addEventListener("keydown", function(event) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    backPage();
-  }
-});
-
-nextBtn.addEventListener("keydown", function(event) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    nextPage();
-  }
-});
-
 function openPhoto(button) {
   const photoFile = button.dataset.photo;
   const caption = button.dataset.caption || "";
@@ -106,6 +101,30 @@ function openPhoto(button) {
   closePopup.focus();
 }
 
+function closePhoto() {
+  photoPopup.hidden = true;
+  photoPopup.setAttribute("aria-hidden", "true");
+  secretPhoto.removeAttribute("src");
+}
+
+backBtn.addEventListener("click", backPage);
+nextBtn.addEventListener("click", nextPage);
+sufferImage.addEventListener("click", openVideoPage);
+
+[backBtn, nextBtn].forEach(function(button) {
+  button.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+
+      if (button === backBtn) {
+        backPage();
+      } else {
+        nextPage();
+      }
+    }
+  });
+});
+
 secretButtons.forEach(function(button) {
   button.addEventListener("click", function(event) {
     event.stopPropagation();
@@ -113,12 +132,6 @@ secretButtons.forEach(function(button) {
     openPhoto(button);
   });
 });
-
-function closePhoto() {
-  photoPopup.hidden = true;
-  photoPopup.setAttribute("aria-hidden", "true");
-  secretPhoto.removeAttribute("src");
-}
 
 closePopup.addEventListener("click", function() {
   playClick();
@@ -137,29 +150,10 @@ document.addEventListener("keydown", function(event) {
   }
 });
 
-const loadingDuration = 4000;
-let loadingStarted = false;
-
-function startLoading() {
-  if (loadingStarted) return;
-
-  loadingStarted = true;
-
-  setTimeout(function() {
-    loadingScreen.style.display = "none";
-    showPage();
-  }, loadingDuration);
-}
-
-loadingGif.addEventListener("load", startLoading);
-
-if (loadingGif.complete && loadingGif.naturalWidth > 0) {
-  startLoading();
-}
-
-loadingGif.addEventListener("error", function() {
-  loadingScreen.style.display = "none";
-  showPage();
+window.addEventListener("error", function(event) {
+  console.error("Website error:", event.message);
 });
 
 showPage();
+
+window.setTimeout(finishLoading, 4000);
