@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You ♡</title>
+  <link rel="stylesheet" href="mmm.css">
+</head>
+
+<body>
+  <div id="loadingScreen">
+    <img
+      src="mangaloading.gif"
+      class="loading-gif"
+      id="loadingGif"
+      alt="Loading animation"
+    >
+    <p class="loading-text">loading...</p>
+  </div>
+
+  <main class="slider">
+    <section class="slide active">
+      <div class="page-wrap">
+        <img
+          src="manga-1.png"
+          class="manga-page"
+          alt="Manga page 1"
+        >
+
+        <button
+          type="button"
+          class="secret secret-heart"
+          style="--x: 88%; --y: 18%; --secret-color: #d2d2d2;"
+          data-photo="secret-photo-1.jpg"
+          data-caption="yay you found it!"
+          aria-label="Discover a hidden photo"
+          title="A little secret"
+        >♡</button>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page-wrap">
+        <img
+          src="manga-2.png"
+          class="manga-page"
+          alt="Manga page 2"
+        >
+
+        <button
+          type="button"
+          class="secret secret-star"
+          style="--x: 85%; --y: 20%; --secret-color: #c8c8c8;"
+          data-photo="secret-photo-2.jpg"
+          data-caption="good work baby"
+          aria-label="Discover a hidden photo"
+          title="A little secret"
+        >✦</button>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page-wrap">
+        <img
+          src="manga-3.png"
+          class="manga-page"
+          alt="Manga page 3"
+        >
+
+        <button
+          type="button"
+          class="secret secret-heart"
+          style="--x: 12%; --y: 55%; --secret-color: #858585;"
+          data-photo="secret-photo-3.jpg"
+          data-caption="what great eyes hun"
+          aria-label="Discover a hidden photo"
+          title="A little secret"
+        >♡</button>
+      </div>
+    </section>
+
+    <section class="slide">
+      <img
+        src="suffer.png"
+        class="manga-page suffer-image"
+        id="sufferImage"
+        alt="Suffer page — click to continue"
+        title="Continue to the ending"
+      >
+    </section>
+
+    <section class="slide video-slide">
+      <video
+        id="endingVideo"
+        class="manga-page"
+        controls
+        playsinline
+        preload="metadata"
+      >
+        <source src="ending.mp4" type="video/mp4">
+        Your browser does not support this video.
+      </video>
+    </section>
+  </main>
+
+  <div class="nav">
+    <img
+      src="mback.png"
+      id="backBtn"
+      alt="Back"
+      role="button"
+      tabindex="0"
+    >
+
+    <img
+      src="mnext.png"
+      id="nextBtn"
+      alt="Next"
+      role="button"
+      tabindex="0"
+    >
+  </div>
+
+  <div
+    id="photoPopup"
+    class="photo-popup"
+    role="dialog"
+    aria-modal="true"
+    aria-label="A hidden photo"
+    aria-hidden="true"
+    hidden
+  >
+    <div class="photo-card">
+      <button
+        type="button"
+        id="closePopup"
+        class="close-popup"
+        aria-label="Close photo"
+      >×</button>
+
+      <img
+        id="secretPhoto"
+        src=""
+        alt="A hidden memory"
+      >
+
+      <p id="photoCaption"></p>
+    </div>
+  </div>
+
+  <audio
+    id="clickSound"
+    src="click.mp3"
+    preload="auto"
+  ></audio>
+
+  <script src="mmm.js" defer></script>
+</body>
+
+</html>
